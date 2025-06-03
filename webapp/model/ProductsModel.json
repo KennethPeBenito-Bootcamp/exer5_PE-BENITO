@@ -1,0 +1,64 @@
+{
+	"products": [
+		{
+			"ProductID": "HT-1000",
+			"ProductName": "Notebook Basic 15",
+			"SupplierID": "HT",
+			"CategoryID": "Notebook",
+			"QuantityPerUnit": 10,
+			"UnitPrice": 956,
+			"UnitsInStock": 25,
+			"UnitsOnOrder": 5,
+			"ReorderLevel": 8,
+			"Discontinued": false
+		},
+		{
+			"ProductID": "HT-1001",
+			"ProductName": "Notebook Basic 17",
+			"SupplierID": "HT",
+			"CategoryID": "Notebook",
+			"QuantityPerUnit": 20,
+			"UnitPrice": 1249,
+			"UnitsInStock": 30,
+			"UnitsOnOrder": 10,
+			"ReorderLevel": 12,
+			"Discontinued": false
+		},
+		{
+			"ProductID": "HT-1002",
+			"ProductName": "Notebook Basic 18",
+			"SupplierID": "HT",
+			"CategoryID": "Notebook",
+			"QuantityPerUnit": 10,
+			"UnitPrice": 1570,
+			"UnitsInStock": 15,
+			"UnitsOnOrder": 7,
+			"ReorderLevel": 6,
+			"Discontinued": true
+		},
+		{
+			"ProductID": "HT-1003",
+			"ProductName": "Notebook Basic 19",
+			"SupplierID": "HT",
+			"CategoryID": "Notebook",
+			"QuantityPerUnit": 10,
+			"UnitPrice": 970,
+			"UnitsInStock": 20,
+			"UnitsOnOrder": 3,
+			"ReorderLevel": 9,
+			"Discontinued": false
+		},
+		{
+			"ProductID": "HT-1007",
+			"ProductName": "ITelO Vault",
+			"SupplierID": "HT",
+			"CategoryID": "ITelO",
+			"QuantityPerUnit": 15,
+			"UnitPrice": 299,
+			"UnitsInStock": 18,
+			"UnitsOnOrder": 4,
+			"ReorderLevel": 7,
+			"Discontinued": false
+		}
+	]
+}

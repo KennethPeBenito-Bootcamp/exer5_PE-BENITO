@@ -1,22 +1,41 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
-], (Controller) => {
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/model/json/JSONModel",
+    "../model/formatter"
+], (Controller,JSONModel,formatter) => {
     "use strict";
 
     return Controller.extend("sapips.training.jsonbinding.controller.JSONBinding", {
+        formatter:formatter,
         onInit() {
             let oEmployeeData={
-                EID:"kenneth.p.pe.benito",
+                Eid:"kenneth.p.pe.benito",
                 Enabled: true,
                 Address: {
                     Street: "Pines",
                     City: "Mandaluyong",
-                    ZIP: "1550",
+                    Zip: "1550",
                     Country: "Philippines"
                 },
-                SalesAmount: 15000,
+                SalesAmount: 17000,
                 CurrencyCode: "Php"
             }
+            let oEmployeeModel=new JSONModel();
+            oEmployeeModel.setData(oEmployeeData);
+            this.getView().setModel(oEmployeeModel,"employee");
+            let oProductListModel = new JSONModel("/model/ProductsModel.json");
+            this.getView().setModel(oProductListModel,"products");
+        },
+        onPressProduct: function(oEvent){
+            let oList = oEvent.getSource();
+            let oSelectedItem = oList.getSelectedItem();
+            let oContext = oSelectedItem.getBindingContext("products");
+            let sPath = oContext.getPath();
+            let sProdDetails = this.byId("idProdSimpleForm");
+            sProdDetails.bindElement({
+                path : sPath,
+                model : "products"
+            });
         }
     });
 });
