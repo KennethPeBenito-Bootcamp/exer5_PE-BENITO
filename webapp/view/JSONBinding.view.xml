@@ -4,66 +4,64 @@
     xmlns="sap.m">
     <Page id="page" title="{i18n>title}">
     <content>
-    <Panel id="panel1" headerText="Data Binding Basics" class="sapUiResponsiveMargin" width="auto" >
-         <f:SimpleForm id="idSimpleForm2" editable="true" layout="ResponsiveGridLayout" title="{i18n>detailsLbl}" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+    <Panel id="panel1" headerText="{i18n>dataBindingBasicsLbl}" class="sapUiResponsiveMargin" width="auto" >
+         <f:SimpleForm id="idSimpleForm2" editable="true" layout="ResponsiveGridLayout"  labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
             <f:content>
                 <Label id="idLblEid" text="{i18n>eidLbl}"/>
-                <Input id="idInptEid" value="" enabled="false"/>
+                <Input id="idInptEid" value="{employee>/Eid}" enabled="{employee>/Enabled}"/>
                 <Label id="idLblEnable" text="{i18n>enableLbl}" />
-                <CheckBox id="idChkEnable" text="" selected="false" />
+                <CheckBox id="idChkEnable" selected="{employee>/Enabled}" />
             </f:content>
         </f:SimpleForm>
     </Panel>    
-
-    <Panel id="panel2" headerText="Address Details" class="sapUiResponsiveMargin" width="auto" >
-        <f:SimpleForm id="idAddSimpleForm" editable="true" layout="ResponsiveGridLayout" title="{i18n>addressDetailsLbl}" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+    <Panel id="panel2" headerText="{i18n>addDetailsLbl}" class="sapUiResponsiveMargin" width="auto" >
+        <f:SimpleForm id="idAddSimpleForm" editable="true" layout="ResponsiveGridLayout" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
             <f:content>
-                <Label id="idLblAddress" text="Address"/>
-                <Text id="inputAddress" text="{/Address/Street} {/Address/ZIP} {/Address/City} {/Address/Country}" class="sapUiSmallMarginBottom" width="100%"/>
-                <Link id="label3" text="Send Email" href="{ path: '/EID', formatter:'.formatter.formatMail'}"/>
+                <Label id="idLblAddress" text="{i18n>addLbl}"/>
+                <Text id="inputAddress" text="{employee>/Address/Street} {employee>Address/Zip} {employee>/Address/City} {employee>/Address/Country}" class="sapUiSmallMarginBottom" width="100%"/>
+                <Link id="label3" text="{i18n>sendEmailLbl}" href="{ path: 'employee>/Eid', formatter:'.formatter.formatMail'}"/>
                 <Label id="idLblSalesAmount" text="{i18n>salesAmountLbl}" />
-                <Input id="idInputSalesAmount" class="sapUiSmallMarginBegin" enabled="true"  value="{ parts: [ {path: '/SalesAmount'}, {path: '/CurrencyCode'} ], type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false} }"/>
+                <Input id="idInputSalesAmount" maxLength="8" class="sapUiSmallMarginBegin" enabled="true"  value="{ parts: [ {path: 'employee>/SalesAmount'}, {path: 'employee>/CurrencyCode'} ], type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: false} }"/>
             </f:content>
         </f:SimpleForm>
     </Panel>
-    <Panel id="panel3" headerText="Aggregation Binding" class="sapUiResponsiveMargin" width="auto" >    
-        <List id="idList" items="{/ProductCollection}" headerText="Products">
-		 <ObjectListItem id="idAggregationBind" type="Active" number="{ parts: [ {path: 'UnitPrice'}, {path: '/CurrencyCode'} ], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false } }" numberUnit="{/CurrencyCode}">	
-            <attributes>
-                <ObjectAttribute id="idQuantity" text="QuantityPerUnit" />
-            </attributes>
-            <attributes>
-                <ObjectAttribute id="idStock" text="{ parts: [ {path: 'UnitPrice'}, {path: 'UnitsInStock'}, {path: '/CurrencyCode'} ], formatter: '.formatter.formatStockValue' }" />
-            </attributes>
-        </ObjectListItem>
-	</List>
+    <Panel id="panel3" headerText="{i18n>aggregationBindingLbl}" class="sapUiResponsiveMargin" width="auto" >    
+        <List id="idList" items="{products>/products}" itemPress="onPressProduct"  mode="SingleSelectMaster">
+            <ObjectListItem title="{products>ProductName}" id="idAggregationBind" type="Active" number="{ parts: [ {path: 'products>UnitPrice'}, {path: 'products>CurrencyCode'} ], type: 'sap.ui.model.type.Currency', formatOptions: { showMeasure: false } }" numberUnit="{/CurrencyCode}" >	
+                <attributes>
+                    <ObjectAttribute id="idQuantity" title="{i18n>stockonHandLbl}" text="{products>UnitsInStock}" />
+                </attributes>
+                <attributes>
+                    <ObjectAttribute id="idStock" title="{i18n>currentStockValueLbl}" text="{ parts: [ {path: 'products>UnitPrice'}, {path: 'products>UnitsInStock'}, {path: 'products>/CurrencyCode'} ], formatter: '.formatter.formatStockValue' }" />
+                </attributes>
+            </ObjectListItem>
+	    </List>
     </Panel>
-    <Panel id="panel4" headerText="Product Details" class="sapUiResponsiveMargin" width="auto" > 
-         <f:SimpleForm id="idProdSimpleForm" editable="true" layout="ResponsiveGridLayout" title="{i18n>addressDetailsLbl}" labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
+    <Panel id="panel4" headerText="{i18n>prodDetailsLbl}" class="sapUiResponsiveMargin" width="auto" > 
+         <f:SimpleForm id="idProdSimpleForm" editable="true" layout="ResponsiveGridLayout"  labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="false">
             <f:content>
-                <Label text="ProductID" id="idLblProd"/>
-                <Input width="100%" id="idInptPId" value="ProductID"/>
-                <Label text="ProductName" id="idLbl"/>
-                <Input width="100%" id="idInptPName" value="ProductName"/>
-                <Label text="SupplierID" id="idLblSup"/>
-                <Input width="100%" id="idInptSupID" value="SupplierID"/>
-                <Label text="CategoryID" id="idLblCat"/>
-                <Input width="100%" id="idInptCat" value="CategoryID"/>
-                <Label text="QuantityPerUnit" id="idLblQty"/>
-                <Input width="100%" id="idInptQty" value="QuantityPerUnit"/>
-                <Label text="UnitPrice" id="idLblUnPrice"/>
-                <Input width="100%" id="idInptUPrice" value="UnitPrice"/>
-                <Label text="UnitsinStock" id="idLblUStock"/>
-                <Input width="100%" id="idInptUStock" value="UnitsInStock"/>
-                <Label text="UnitsonOrder" id="idLblOrder"/>
-                <Input width="100%" id="idInptUOrder" value="UnitsOnOrder"/>
-                <Label text="ReorderLevl" id="idLblLvl"/>
-                <Input width="100%" id="idInptLvl" value="ReorderLevel"/>
-                <Label text="Discontinued" id="idLblDis"/>
-                <Input width="100%" id="idInptDis" value="Discontinued"/>
+                <Label text="{i18n>prodIdLbl}" id="idLblProd"/>
+                <Input width="100%" id="idInptPId" value="{products>ProductID}"/>
+                <Label text="{i18n>prodNameLbl}" id="idLbl"/>
+                <Input width="100%" id="idInptPName" value="{products>ProductName}"/>
+                <Label text="{i18n>suppIdLbl}" id="idLblSup"/>
+                <Input width="100%" id="idInptSupID" value="{products>SupplierID}"/>
+                <Label text="{i18n>catIdLbl}" id="idLblCat"/>
+                <Input width="100%" id="idInptCat" value="{products>CategoryID}"/>
+                <Label text="{i18n>qtyPerUnitLbl}" id="idLblQty"/>
+                <Input width="100%" id="idInptQty" value="{products>QuantityPerUnit}"/>
+                <Label text="{i18n>unitPriceLbl}" id="idLblUnPrice"/>
+                <Input width="100%" id="idInptUPrice" value="{products>UnitPrice}"/>
+                <Label text="{i18n>unitsInStockLbl}" id="idLblUStock"/>
+                <Input width="100%" id="idInptUStock" value="{products>UnitsInStock}"/>
+                <Label text="{i18n>unitsOnOrderLbl}" id="idLblOrder"/>
+                <Input width="100%" id="idInptUOrder" value="{products>UnitsOnOrder}"/>
+                <Label text="{i18n>reorderLvlLbl}" id="idLblLvl"/>
+                <Input width="100%" id="idInptLvl" value="{products>ReorderLevel}"/>
+                <Label text="{i18n>discontinuedsLbl}" id="idLblDis"/>
+                <Input width="100%" id="idInptDis" value="{products>Discontinued}"/>
             </f:content>
         </f:SimpleForm>
-
     </Panel>
     </content>    
     </Page>
